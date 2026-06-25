@@ -1,3 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Groundbreaking Communication Quiz</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --accent-color: #4a90e2;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-top: 40px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-bottom: 30px;
+        }
+
+        .quiz-header {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .scenario {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8fafc;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.1s, filter 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .btn-yes {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-no {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .emoji-meme {
+            font-size: 4rem;
+            text-align: center;
+            margin: 15px 0;
+            background: rgba(255,255,255,0.5);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .sub-question {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .sub-question select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 4px;
+            border: 1px solid #ffeeba;
+            font-size: 1rem;
+        }
+
+        .next-btn {
+            background-color: #34495e;
+            color: white;
+            margin-top: 15px;
+            width: 100%;
+            display: none;
+        }
+
+        #results-card {
+            text-align: center;
+            display: none;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--success-color);
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>The "Is Communication Really That Hard?" Quiz</h1>
+    <div class="subtitle">A groundbreaking assessment for basic workplace functions.</div>
+    
+    <div class="quiz-header" id="quiz-progress">Question 1 of 5</div>
+
+    <div id="quiz-body">
+        </div>
+
+    <div id="results-card">
+        <h2>Quiz Complete!</h2>
+        <div class="score">100%</div>
+        <p><strong>Wow. Incredible.</strong> You successfully figured out that you need to talk to your coworkers. Someone get the hiring manager on the phone, we have a prodigy here.</p>
+        <p>Please close this tab and go do literally any of the things mentioned in this quiz.</p>
+    </div>
+</div>
+
 <script>
     const questions = [
         { id: 1, text: "Putting a till in a cash stn that wasn't on the weekly sched." },
@@ -7,7 +191,6 @@
         { id: 5, text: "If RPPs are becoming disorganized." }
     ];
 
-    // Sarcastic reasons for why they chose "No"
     const passiveAggressiveReasons = [
         "I prefer leaving mysteries for the next shift.",
         "I thought telepathy was implemented in the last company update.",
@@ -16,11 +199,11 @@
         "I wanted to see how long it takes for everything to collapse."
     ];
 
-    // Ultra-reliable image links for doing the bare minimum
-    const memes = [
-        "https://images.unsplash.com/photo-1531070836166-440d4bd270b4?w=500&auto=format&fit=crop&q=60", // Golden Star sticker ("You Tried")
-        "https://images.unsplash.com/photo-1599508704512-2f19efd1e35f?w=500&auto=format&fit=crop&q=60", // Giant 3D Question Mark
-        "https://images.unsplash.com/photo-1516624683217-bf02fc6b6b7c?w=500&auto=format&fit=crop&q=60"  // Confetti explosion for the bare minimum
+    // Bulletproof text-based emoji "memes" that will never break or fail to load
+    const emojiMemes = [
+        "🙌✨<br>🏆", // Sarcastic award
+        "👁️👄👁️<br>❓", // Shocked look
+        "🤯🎉<br>🤯"  // Mind blown
     ];
 
     let currentStep = 0;
@@ -34,14 +217,14 @@
         document.getElementById('quiz-progress').innerText = `Question ${currentStep + 1} of ${questions.length}`;
         
         const q = questions[currentStep];
-        const randomMeme = memes[Math.floor(Math.random() * memes.length)];
+        const randomMeme = emojiMemes[Math.floor(Math.random() * emojiMemes.length)];
         
         const dropdownOptions = passiveAggressiveReasons
             .map(reason => `<option value="${reason}">${reason}</option>`).join('');
 
         const html = `
-            <div class="question-card active">
-                <div class="quiz-header" style="border:none; font-size:1.4rem; color:#333;">Should this be communicated?</div>
+            <div class="question-card">
+                <div style="font-weight: bold; font-size:1.3rem; margin-bottom:15px; text-align:center; color:#333;">Should this be communicated?</div>
                 <div class="scenario">"${q.text}"</div>
                 
                 <div class="btn-group" id="actions-${q.id}">
@@ -51,8 +234,7 @@
 
                 <div class="feedback success" id="success-${q.id}">
                     <strong>Congratulations!</strong> You possess the rare and mystical skill known as "basic communication." 🌟
-                    <br><br>
-                    <img src="${randomMeme}" alt="Sarcastic praise" style="max-height: 250px; width: 100%; object-fit: cover; border-radius: 8px;">
+                    <div class="emoji-meme">${randomMeme}</div>
                 </div>
 
                 <div class="sub-question" id="sub-${q.id}">
@@ -97,5 +279,10 @@
         document.getElementById('results-card').style.display = 'block';
     }
 
-    renderQuestion();
+    // Force run on page load
+    window.onload = function() {
+        renderQuestion();
+    };
 </script>
+</body>
+</html>
